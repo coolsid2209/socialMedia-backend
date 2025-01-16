@@ -1,0 +1,26 @@
+version: "3.9"  # modern Docker Compose doesn't require 'version', but it's OK
+
+services:
+  jenkins:
+    build:
+      context: .           # The current directory (where Dockerfile is)
+      dockerfile: Dockerfile-jenkins
+    container_name: jenkins_server
+    user: root
+    ports:
+      - "9090:8080"        # Access Jenkins on localhost:9090
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube_server
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+
+volumes:
+  jenkins_data:
+  sonarqube_data:
